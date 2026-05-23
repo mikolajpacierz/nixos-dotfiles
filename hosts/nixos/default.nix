@@ -8,12 +8,13 @@
     ../../configuration.nix
   ];
 
-  {
+  
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
       users.mikolaj = ../../home.nix;
-  };
+    };
+  
            
 
   networking.hostName = "nixos";
