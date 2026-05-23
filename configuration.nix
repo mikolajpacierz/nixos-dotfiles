@@ -5,12 +5,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ 
-        ./hardware-configuration.nix
-    ];
-
-
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
 
@@ -59,24 +53,14 @@
 
 
   
+   services.printing.enable = true;
 
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
+   services.pipewire = {
+     enable = true;
+     pulse.enable = true;
+   };
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Enable sound.
-  # services.pulseaudio.enable = true;
-  # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
+   services.libinput.enable = true;
 
 
    environment.systemPackages = with pkgs; [
@@ -89,10 +73,15 @@
      fastfetch 
      curl
      wget
-     spice-vdagent
      zoxide
+     fzf
 
-     wl-clipboard
+     zsh-you-should-use
+     zsh-fzf-tab
+     zsh-autopair
+     zsh-powerlevel10k
+     meslo-lgs-nf
+     ghostty
    ];
   system.stateVersion = "25.11"; 
 

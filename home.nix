@@ -1,15 +1,46 @@
 { config, pkgs, ... }:
 
 {
-  programs.neovim = {
+  programs.fzf = {
     enable = true;
-    defaultEditor = true;
-    withPython3 = false;
-    withRuby = false;
+    enableZshIntegration = true;
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   programs.zsh = {
     enable = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+
+    plugins = [
+      {
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+      {
+        name = "zsh-you-should-use";
+        src = pkgs.zsh-you-should-use;
+        file = "share/zsh/plugins/you-should-use/you-should-use.plugin.zsh";
+      }
+      {
+        name = "zsh-autopair";
+        src = pkgs.zsh-autopair;
+        file = "share/zsh/zsh-autopair/autopair.zsh";
+      }
+      {
+        name = "fzf-tab";
+        src = pkgs.zsh-fzf-tab;
+        file = "share/fzf-tab/fzf-tab.plugin.zsh";
+      }
+    ];
+
+    initContent = "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh";
 
     oh-my-zsh = {
       enable = true;
@@ -18,14 +49,16 @@
         "docker"
         "npm"
         "rust"
-        "you-should-use"
-        "zsh-autosuggestions"
-        "zsh-syntax-highlighting"
-        "zsh-bat"
-      ];
+      ]; 
     };
   };
 
+#  programs.neovim = {
+#    enable = true;
+#    defaultEditor = true;
+#    withPython3 = false;
+#    withRuby = false;
+#  };
 
   home.stateVersion = "24.05";
 }
