@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
@@ -49,16 +51,16 @@
         "docker"
         "npm"
         "rust"
-      ]; 
+      ];
     };
   };
 
-#  programs.neovim = {
-#    enable = true;
-#    defaultEditor = true;
-#    withPython3 = false;
-#    withRuby = false;
-#  };
+  #  programs.neovim = {
+  #    enable = true;
+  #    defaultEditor = true;
+  #    withPython3 = false;
+  #    withRuby = false;
+  #  };
 
   home.stateVersion = "24.05";
 }

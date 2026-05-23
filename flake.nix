@@ -6,44 +6,34 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      ...
-    }@inputs:
-    {
-      nixosConfigurations = {
-        pc = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ 
-            ./configuration.nix
-            ./hosts/pc/hardware-configuration.nix 
-          ];
-        };
-        thinkpad = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./configuration.nix
-            ./hosts/thinkpad/hardware-configuration.nix
-
-          ];
-        };
-        nixos = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./configuration.nix
-            ./hosts/nixos/hardware-configuration.nix
-            home-manager.nixosModules.default {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users.mikolaj = ./home.nix;            
-    	      };
-            }
-          ];
-        };
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  } @ inputs: {
+    nixosConfigurations = {
+      pc = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          home-manager.nixosModules.default
+          ./hosts/pc/default.nix
+        ];
+      };
+      thinkpad = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          home-manager.nixosModules.default
+          ./hosts/thinkpad/default.nix
+        ];
+      };
+      nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          home-manager.nixosModules.default
+          ./hosts/nixos/default.nix
+        ];
       };
     };
+  };
 }

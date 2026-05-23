@@ -1,29 +1,22 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  # BOOTLOADER
+
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
 
-  networking.networkmanager.enable = true;
-
-  services.sshd.enable = true;
-  security.sudo.wheelNeedsPassword = false;  
-  programs.zsh.enable = true;
-
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-      PermitRootLogin = "no";
-    };
-  };
+  # LOCALES
 
   time.timeZone = "Europe/Warsaw";
+
+  # USERS
 
   users.users.mikolaj = {
     isNormalUser = true;
@@ -39,51 +32,74 @@
     ];
   };
 
+  security.sudo.wheelNeedsPassword = false;
 
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
+  # NETWORKING
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
+  networking.networkmanager.enable = true;
 
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      PermitRootLogin = "no";
+    };
+  };
 
-  
-   services.printing.enable = true;
+  # AUDIO
 
-   services.pipewire = {
-     enable = true;
-     pulse.enable = true;
-   };
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+  };
 
-   services.libinput.enable = true;
+  security.rtkit.enable = true;
 
+  # SERVICES
 
-   environment.systemPackages = with pkgs; [
-     vim
-     neovim
-     git
-     rustc
-     cargo
-     gcc
-     fastfetch 
-     curl
-     wget
-     zoxide
-     fzf
+  programs.zsh.enable = true;
 
-     zsh-you-should-use
-     zsh-fzf-tab
-     zsh-autopair
-     zsh-powerlevel10k
-     meslo-lgs-nf
-     ghostty
-   ];
-  system.stateVersion = "25.11"; 
+  services.printing.enable = true;
 
+  services.libinput.enable = true;
+
+  # LD
+
+  programs.nix-ld.enable = true;
+  #  programs.nix-ld.libraries = with pkgs [
+  #
+  #  ];
+
+  # FONTS
+
+  fonts.packages = with pkgs; [
+    meslo-lgs-nf
+  ];
+
+  # PACKAGES
+
+  environment.systemPackages = with pkgs; [
+    vim
+    neovim
+    git
+    rustc
+    cargo
+    gcc
+    fastfetch
+    curl
+    wget
+
+    zoxide
+    fzf
+    zsh-you-should-use
+    zsh-fzf-tab
+    zsh-autopair
+    zsh-powerlevel10k
+    ghostty
+
+    vlc
+  ];
+
+  system.stateVersion = "25.11";
 }
-
