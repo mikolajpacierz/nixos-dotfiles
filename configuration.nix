@@ -12,6 +12,11 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
 
+  # NIX
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
+
   # LOCALES
 
   time.timeZone = "Europe/Warsaw";
@@ -56,6 +61,31 @@
 
   security.rtkit.enable = true;
 
+  # GRAPHICS
+
+  services.xserver.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
+
+  environment.gnome.excludePackages = with pkgs; [
+    epiphany        
+    geary           
+    evince        
+    totem           
+    yelp               
+    gnome-tour         
+    gnome-photos
+    gnome-music
+    gnome-weather
+    gnome-contacts
+    gnome-characters
+    
+    atomix
+    hitori
+    iagno
+    tali
+  ];
+
   # SERVICES
 
   programs.zsh.enable = true;
@@ -64,13 +94,6 @@
 
   services.libinput.enable = true;
 
-  # LD
-
-  programs.nix-ld.enable = true;
-  #  programs.nix-ld.libraries = with pkgs [
-  #
-  #  ];
-
   # FONTS
 
   fonts.packages = with pkgs; [
@@ -78,7 +101,6 @@
   ];
 
   # PACKAGES
-
   environment.systemPackages = with pkgs; [
     vim
     neovim
@@ -89,17 +111,28 @@
     fastfetch
     curl
     wget
-
     zoxide
     fzf
+    bat
     zsh-you-should-use
     zsh-fzf-tab
     zsh-autopair
     zsh-powerlevel10k
     ghostty
-
     vlc
+    wl-clipboard
+    
+    jetbrains.idea
+    jetbrains.rust-rover
+
+    steam
   ];
+
+  programs.steam = {
+    enable = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
 
   system.stateVersion = "25.11";
 }

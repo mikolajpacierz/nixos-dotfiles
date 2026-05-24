@@ -3,6 +3,25 @@
   pkgs,
   ...
 }: {
+  programs.ssh = {
+    extraConfig = "
+      Host github.com
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/github
+
+      Host orkan.com
+        HostName orkan.tu.kielce.pl
+        User git
+        IdentityFile ~/.ssh/orkan
+
+      Host pi
+        HostName 192.168.0.164
+        User mikolaj
+        IdentityFile ~/.ssh/pi
+    ";
+  };
+
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
@@ -54,13 +73,6 @@
       ];
     };
   };
-
-  #  programs.neovim = {
-  #    enable = true;
-  #    defaultEditor = true;
-  #    withPython3 = false;
-  #    withRuby = false;
-  #  };
 
   home.stateVersion = "24.05";
 }
