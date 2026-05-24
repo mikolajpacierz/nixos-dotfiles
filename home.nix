@@ -4,7 +4,7 @@
   ...
 }: {
   programs.ssh = {
-    extraConfig = "
+    extraConfig = ''
       Host github.com
         HostName github.com
         User git
@@ -19,7 +19,7 @@
         HostName 192.168.0.164
         User mikolaj
         IdentityFile ~/.ssh/pi
-    ";
+    '';
   };
 
   programs.fzf = {
@@ -62,6 +62,7 @@
     ];
 
     initContent = "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh";
+    
 
     oh-my-zsh = {
       enable = true;
@@ -73,6 +74,8 @@
       ];
     };
   };
+
+  home.file.".p10k.zsh".source = ./.p10k.zsh;
 
   home.stateVersion = "24.05";
 }

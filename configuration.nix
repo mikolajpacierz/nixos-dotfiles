@@ -124,7 +124,7 @@
     
     jetbrains.idea
     jetbrains.rust-rover
-
+    brave
     steam
   ];
 
